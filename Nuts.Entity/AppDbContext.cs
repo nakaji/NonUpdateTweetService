@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nuts.Entity
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext : DbContext
     {
         public AppDbContext() : base("NutsConnection") { }
 
