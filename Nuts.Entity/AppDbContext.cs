@@ -10,5 +10,7 @@ namespace Nuts.Entity
     public class AppDbContext:DbContext
     {
         public AppDbContext() : base("NutsConnection") { }
+
+        public DbSet<User> Users;
     }
 }
