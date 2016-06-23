@@ -29,6 +29,15 @@ namespace Nuts.Web.Controllers
             var oAuthSession = TempData["OAuthSession"] as OAuth.OAuthSession;
             var token = await oAuthSession.GetTokensAsync(oauth_verifier);
 
+            TempData["IsAuthenticated"] = true;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<ActionResult> LogOff()
+        {
+            TempData["IsAuthenticated"] = false;
+
             return RedirectToAction("Index", "Home");
         }
     }
