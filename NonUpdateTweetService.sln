@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuts.Web", "Nuts.Web\Nuts.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuts.Entity", "Nuts.Entity\Nuts.Entity.csproj", "{FBD3BB52-EF67-43FC-86AC-68F44147D0B4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D923D547-0380-40A1-9E39-502D289405D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuts.Entity.Test", "Nuts.Entity.Test\Nuts.Entity.Test.csproj", "{2BD8B28C-5E85-4EA2-BDF5-039A7F7ACFFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +25,15 @@ Global
 		{FBD3BB52-EF67-43FC-86AC-68F44147D0B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD3BB52-EF67-43FC-86AC-68F44147D0B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD3BB52-EF67-43FC-86AC-68F44147D0B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD8B28C-5E85-4EA2-BDF5-039A7F7ACFFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD8B28C-5E85-4EA2-BDF5-039A7F7ACFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD8B28C-5E85-4EA2-BDF5-039A7F7ACFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD8B28C-5E85-4EA2-BDF5-039A7F7ACFFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2BD8B28C-5E85-4EA2-BDF5-039A7F7ACFFB} = {D923D547-0380-40A1-9E39-502D289405D4}
 	EndGlobalSection
 EndGlobal

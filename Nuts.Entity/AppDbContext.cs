@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nuts.Entity.Migrations;
 
 namespace Nuts.Entity
 {
@@ -11,6 +12,8 @@ namespace Nuts.Entity
     {
         public AppDbContext() : base("NutsConnection") { }
 
-        public DbSet<User> Users;
+        public DbSet<User> Users { get; set; }
     }
+
+
 }
