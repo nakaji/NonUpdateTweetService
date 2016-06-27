@@ -12,7 +12,7 @@ namespace Nuts.Entity
     {
         public AppDbContext() : base("NutsConnection") { }
 
-        public DbSet<User> Users { get; set; }
+        public virtual IDbSet<User> Users { get; set; }
     }
 
 

@@ -9,9 +9,18 @@ namespace Nuts.Repository
 {
     public class UserRepository
     {
+        private AppDbContext _db;
+
+        public UserRepository() : this(new AppDbContext()) { }
+
+        public UserRepository(AppDbContext db)
+        {
+            _db = db;
+        }
+
         public User GetUserByTwitterUserId(long userId)
         {
-            return null;
+            return _db.Users.FirstOrDefault(x => x.Twitter.UserId == userId);
         }
     }
 }
