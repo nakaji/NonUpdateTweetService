@@ -22,5 +22,10 @@ namespace Nuts.Repository
         {
             return _db.Users.FirstOrDefault(x => x.Twitter.UserId == userId);
         }
+
+        public void Save(User user)
+        {
+            _db.Users.Add(user);
+        }
     }
 }

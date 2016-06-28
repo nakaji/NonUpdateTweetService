@@ -57,5 +57,21 @@ namespace Nuts.Repository.Test
             Assert.AreEqual(1, result.Id);
             Assert.AreEqual(1, result.Id);
         }
+
+        [TestMethod]
+        public void Save_ユーザー情報を保存する()
+        {
+            // Arrange
+            var user = new User() {};
+            _moqDb = new Mock<AppDbContext>();
+            _moqDb.Setup(x => x.Users.Add(user));
+            var sut = new UserRepository(_moqDb.Object);
+
+            // Act
+            sut.Save(user);
+
+            // Assert
+            _moqDb.Verify(x => x.Users.Add(user), Times.Once);
+        }
     }
 }
