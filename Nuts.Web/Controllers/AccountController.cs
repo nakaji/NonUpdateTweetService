@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CoreTweet;
+using Nuts.Web.WorkerService;
 
 namespace Nuts.Web.Controllers
 {
@@ -30,6 +31,9 @@ namespace Nuts.Web.Controllers
             var token = await oAuthSession.GetTokensAsync(oauth_verifier);
 
             TempData["IsAuthenticated"] = true;
+
+            var service = new AccountService();
+            service.Save(token.UserId, token.ScreenName, token.AccessToken, token.AccessTokenSecret);
 
             return RedirectToAction("Index", "Home");
         }
