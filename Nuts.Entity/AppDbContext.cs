@@ -15,5 +15,11 @@ namespace Nuts.Entity
         public virtual IDbSet<User> Users { get; set; }
     }
 
-
+    public static class DatabaseInitializer
+    {
+        public static void MigrateDatabaseToLatestVersion()
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppDbContext, Configuration>());
+        }
+    }
 }

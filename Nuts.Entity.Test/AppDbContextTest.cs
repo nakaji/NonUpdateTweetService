@@ -20,13 +20,16 @@ namespace Nuts.Entity.Test
         }
 
         [TestMethod]
-        public void MyTestMethod()
+        public void マイグレーションするように初期化する()
         {
             // Arrange
 
             // Act
+            DatabaseInitializer.MigrateDatabaseToLatestVersion();
+            var db = new AppDbContext();
 
             // Assert
+            var result = db.Users.ToListAsync().Result;
 
         }
     }
