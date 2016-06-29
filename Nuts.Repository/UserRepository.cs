@@ -26,6 +26,7 @@ namespace Nuts.Repository
         public void Save(User user)
         {
             _db.Users.Add(user);
+            _db.SaveChanges();
         }
     }
 }

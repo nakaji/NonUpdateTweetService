@@ -65,6 +65,7 @@ namespace Nuts.Repository.Test
             var user = new User() {};
             _moqDb = new Mock<AppDbContext>();
             _moqDb.Setup(x => x.Users.Add(user));
+            _moqDb.Setup(x => x.SaveChanges());
             var sut = new UserRepository(_moqDb.Object);
 
             // Act
@@ -72,6 +73,7 @@ namespace Nuts.Repository.Test
 
             // Assert
             _moqDb.Verify(x => x.Users.Add(user), Times.Once);
+            _moqDb.Verify(x => x.SaveChanges(), Times.Once);
         }
     }
 }
