@@ -18,14 +18,14 @@ namespace Nuts.Repository
             _db = db;
         }
 
-        public User GetUserByTwitterUserId(long userId)
+        public User GetUserById(long userId)
         {
             return _db.Users.FirstOrDefault(x => x.UserId == userId);
         }
 
         public void Save(User user)
         {
-            var u = GetUserByTwitterUserId(user.UserId);
+            var u = GetUserById(user.UserId);
             if (u == null)
             {
                 _db.Users.Add(user);

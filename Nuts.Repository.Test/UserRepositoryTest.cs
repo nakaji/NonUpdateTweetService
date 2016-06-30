@@ -41,26 +41,26 @@ namespace Nuts.Repository.Test
         }
 
         [TestMethod]
-        public void GetUserByTwitterUserId_存在しない場合はnull()
+        public void GetUserById_存在しない場合はnull()
         {
             // Arrange
             var sut = new UserRepository(_moqDb.Object);
 
             // Act
-            var result = sut.GetUserByTwitterUserId(9999);
+            var result = sut.GetUserById(9999);
 
             // Assert
             Assert.AreEqual(null, result);
         }
 
         [TestMethod]
-        public void GetUserByTwitterUserId_UserIdで検索()
+        public void GetUserById_UserIdで検索()
         {
             // Arrange
             var sut = new UserRepository(_moqDb.Object);
 
             // Act
-            var result = sut.GetUserByTwitterUserId(100);
+            var result = sut.GetUserById(100);
 
             // Assert
             Assert.AreEqual(100, result.UserId);
@@ -90,7 +90,7 @@ namespace Nuts.Repository.Test
             sut.Save(user);
             user.ScreenName = "updated name";
             sut.Save(user);
-            var result = sut.GetUserByTwitterUserId(user.UserId);
+            var result = sut.GetUserById(user.UserId);
 
             // Assert
             Assert.AreEqual("updated name", result.ScreenName);
