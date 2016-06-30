@@ -25,7 +25,15 @@ namespace Nuts.Repository
 
         public void Save(User user)
         {
-            _db.Users.Add(user);
+            var u = GetUserByTwitterUserId(user.Twitter.UserId);
+            if (u == null)
+            {
+                _db.Users.Add(user);
+            }
+            else
+            {
+                u.Twitter = user.Twitter;
+            }
             _db.SaveChanges();
         }
     }

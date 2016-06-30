@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Castle.Core.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Nuts.Entity;
@@ -29,6 +30,14 @@ namespace Nuts.Repository.Test
 
             _moqDb = new Mock<AppDbContext>();
             _moqDb.Setup(x => x.Users).Returns(dbSetMock.Object);
+
+
+            DatabaseInitializer.MigrateDatabaseToLatestVersion();
+            using (var db = new AppDbContext())
+            {
+                db.Users.ForEach(u => db.Users.Remove(u));
+                db.SaveChanges();
+            }
         }
 
         [TestMethod]
@@ -62,18 +71,30 @@ namespace Nuts.Repository.Test
         public void Save_ユーザー情報を保存する()
         {
             // Arrange
-            var user = new User() {};
-            _moqDb = new Mock<AppDbContext>();
-            _moqDb.Setup(x => x.Users.Add(user));
-            _moqDb.Setup(x => x.SaveChanges());
-            var sut = new UserRepository(_moqDb.Object);
+            var user = new User() { Twitter = new Twitter() { UserId = 100 } };
+            var sut = new UserRepository();
 
             // Act
             sut.Save(user);
 
             // Assert
-            _moqDb.Verify(x => x.Users.Add(user), Times.Once);
-            _moqDb.Verify(x => x.SaveChanges(), Times.Once);
+        }
+
+        [TestMethod]
+        public void Save_同じUserIdのデータがあれば上書き()
+        {
+            // Arrange
+            var user = new User() { Twitter = new Twitter() { UserId = 100 } };
+            var sut = new UserRepository();
+
+            // Act
+            sut.Save(user);
+            user.Twitter.ScreenName = "updated name";
+            sut.Save(user);
+            var result = sut.GetUserByTwitterUserId(user.Twitter.UserId);
+
+            // Assert
+            Assert.AreEqual("updated name", result.Twitter.ScreenName);
         }
     }
 }
