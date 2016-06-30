@@ -14,14 +14,10 @@ namespace Nuts.Web.WorkerService
             var repo = new UserRepository();
             repo.Save(new User
             {
-                Twitter = new Twitter()
-                {
-                    UserId = userId,
-                    ScreenName = screenName,
-                    AccessToken = accessToken,
-                    AccessTokenSecret = accessTokenSecret
-                }
-
+                UserId = userId,
+                ScreenName = screenName,
+                AccessToken = accessToken,
+                AccessTokenSecret = accessTokenSecret
             });
         }
     }

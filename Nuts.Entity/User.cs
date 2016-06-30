@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,13 +11,7 @@ namespace Nuts.Entity
 {
     public class User
     {
-        public int Id { get; set; }
-        public Twitter Twitter { get; set; }
-    }
-
-    public class Twitter
-    {
-        [Index(IsUnique =true)]
+        [Key]
         public long UserId { get; set; }
         public string ScreenName { get; set; }
         public string AccessToken { get; set; }

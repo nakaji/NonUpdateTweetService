@@ -18,8 +18,8 @@ namespace Nuts.Repository.Test
         public void SetUp()
         {
             var data = new List<User>()   {
-                new User { Id = 1, Twitter=new Twitter() {UserId=100} },
-                new User { Id = 2, Twitter=new Twitter() {UserId=200} },
+                new User { UserId=100 },
+                new User { UserId=200 },
             }.AsQueryable();
 
             var dbSetMock = new Mock<IDbSet<User>>();
@@ -63,15 +63,14 @@ namespace Nuts.Repository.Test
             var result = sut.GetUserByTwitterUserId(100);
 
             // Assert
-            Assert.AreEqual(1, result.Id);
-            Assert.AreEqual(1, result.Id);
+            Assert.AreEqual(100, result.UserId);
         }
 
         [TestMethod]
         public void Save_ユーザー情報を保存する()
         {
             // Arrange
-            var user = new User() { Twitter = new Twitter() { UserId = 100 } };
+            var user = new User() { UserId = 100 };
             var sut = new UserRepository();
 
             // Act
@@ -84,17 +83,17 @@ namespace Nuts.Repository.Test
         public void Save_同じUserIdのデータがあれば上書き()
         {
             // Arrange
-            var user = new User() { Twitter = new Twitter() { UserId = 100 } };
+            var user = new User() {  UserId = 100 };
             var sut = new UserRepository();
 
             // Act
             sut.Save(user);
-            user.Twitter.ScreenName = "updated name";
+            user.ScreenName = "updated name";
             sut.Save(user);
-            var result = sut.GetUserByTwitterUserId(user.Twitter.UserId);
+            var result = sut.GetUserByTwitterUserId(user.UserId);
 
             // Assert
-            Assert.AreEqual("updated name", result.Twitter.ScreenName);
+            Assert.AreEqual("updated name", result.ScreenName);
         }
     }
 }

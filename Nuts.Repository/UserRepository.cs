@@ -20,19 +20,21 @@ namespace Nuts.Repository
 
         public User GetUserByTwitterUserId(long userId)
         {
-            return _db.Users.FirstOrDefault(x => x.Twitter.UserId == userId);
+            return _db.Users.FirstOrDefault(x => x.UserId == userId);
         }
 
         public void Save(User user)
         {
-            var u = GetUserByTwitterUserId(user.Twitter.UserId);
+            var u = GetUserByTwitterUserId(user.UserId);
             if (u == null)
             {
                 _db.Users.Add(user);
             }
             else
             {
-                u.Twitter = user.Twitter;
+                u.ScreenName = user.ScreenName;
+                u.AccessToken = user.AccessToken;
+                u.AccessTokenSecret = user.AccessTokenSecret;
             }
             _db.SaveChanges();
         }
