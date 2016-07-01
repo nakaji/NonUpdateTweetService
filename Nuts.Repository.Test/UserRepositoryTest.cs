@@ -29,7 +29,9 @@ namespace Nuts.Repository.Test
             dbSetMock.Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
             _moqDb = new Mock<AppDbContext>();
+            _moqDb.Setup(x => x.Users.Add(It.IsAny<User>()));
             _moqDb.Setup(x => x.Users).Returns(dbSetMock.Object);
+            _moqDb.Setup(x => x.SaveChanges());
 
 
             DatabaseInitializer.MigrateDatabaseToLatestVersion();
@@ -70,20 +72,23 @@ namespace Nuts.Repository.Test
         public void Save_ユーザー情報を保存する()
         {
             // Arrange
-            var user = new User() { UserId = 100 };
-            var sut = new UserRepository();
+            var user = new User() { UserId = 999 };
+
+            var sut = new UserRepository(_moqDb.Object);
 
             // Act
             sut.Save(user);
 
             // Assert
+            _moqDb.Verify(x => x.Users.Add(user), Times.Exactly(2));
+            _moqDb.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod]
         public void Save_同じUserIdのデータがあれば上書き()
         {
             // Arrange
-            var user = new User() {  UserId = 100 };
+            var user = new User() { UserId = 100 };
             var sut = new UserRepository();
 
             // Act
