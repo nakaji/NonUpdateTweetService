@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Castle.Core.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Nuts.Entity;
@@ -12,41 +10,28 @@ namespace Nuts.Repository.Test
     [TestClass]
     public class UserRepositoryTest
     {
-        private Mock<AppDbContext> _moqDb;
-
-        [TestInitialize]
-        public void SetUp()
+        private static Mock<IDbSet<User>> GetMockSet(IEnumerable<User> data)
         {
-            var data = new List<User>()   {
-                new User { UserId=100 },
-                new User { UserId=200 },
-            }.AsQueryable();
+            var queriableData = data.AsQueryable();
 
-            var dbSetMock = new Mock<IDbSet<User>>();
-            dbSetMock.Setup(m => m.Provider).Returns(data.Provider);
-            dbSetMock.Setup(m => m.Expression).Returns(data.Expression);
-            dbSetMock.Setup(m => m.ElementType).Returns(data.ElementType);
-            dbSetMock.Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            var mock = new Mock<IDbSet<User>>();
+            mock.Setup(m => m.Provider).Returns(queriableData.Provider);
+            mock.Setup(m => m.Expression).Returns(queriableData.Expression);
+            mock.Setup(m => m.ElementType).Returns(queriableData.ElementType);
+            mock.Setup(m => m.GetEnumerator()).Returns(queriableData.GetEnumerator());
 
-            _moqDb = new Mock<AppDbContext>();
-            _moqDb.Setup(x => x.Users.Add(It.IsAny<User>()));
-            _moqDb.Setup(x => x.Users).Returns(dbSetMock.Object);
-            _moqDb.Setup(x => x.SaveChanges());
-
-
-            DatabaseInitializer.MigrateDatabaseToLatestVersion();
-            using (var db = new AppDbContext())
-            {
-                db.Users.ForEach(u => db.Users.Remove(u));
-                db.SaveChanges();
-            }
+            return mock;
         }
 
         [TestMethod]
         public void GetUserById_存在しない場合はnull()
         {
             // Arrange
-            var sut = new UserRepository(_moqDb.Object);
+            var mockSet = GetMockSet(new List<User>());
+            var moqDb = new Mock<AppDbContext>();
+            moqDb.Setup(x => x.Users).Returns(mockSet.Object);
+
+            var sut = new UserRepository(moqDb.Object);
 
             // Act
             var result = sut.GetUserById(9999);
@@ -59,7 +44,15 @@ namespace Nuts.Repository.Test
         public void GetUserById_UserIdで検索()
         {
             // Arrange
-            var sut = new UserRepository(_moqDb.Object);
+            var data = new List<User>()
+            {
+                new User {UserId = 100},
+            };
+            var mockSet = GetMockSet(data);
+            var moqDb = new Mock<AppDbContext>();
+            moqDb.Setup(x => x.Users).Returns(mockSet.Object);
+
+            var sut = new UserRepository(moqDb.Object);
 
             // Act
             var result = sut.GetUserById(100);
@@ -72,33 +65,42 @@ namespace Nuts.Repository.Test
         public void Save_ユーザー情報を保存する()
         {
             // Arrange
-            var user = new User() { UserId = 999 };
+            var mockSet = GetMockSet(new List<User>());
+            var moqDb = new Mock<AppDbContext>();
+            moqDb.Setup(x => x.Users).Returns(mockSet.Object);
 
-            var sut = new UserRepository(_moqDb.Object);
+            var sut = new UserRepository(moqDb.Object);
 
             // Act
+            var user = new User() { UserId = 999 };
             sut.Save(user);
 
             // Assert
-            _moqDb.Verify(x => x.Users.Add(user), Times.Exactly(2));
-            _moqDb.Verify(x => x.SaveChanges(), Times.Once);
+            mockSet.Verify(x => x.Add(It.IsAny<User>()), Times.Once);
+            moqDb.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod]
         public void Save_同じUserIdのデータがあれば上書き()
         {
             // Arrange
-            var user = new User() { UserId = 100 };
+            var data = new List<User>()
+            {
+                new User {UserId = 100,  ScreenName = "New User"},
+            };
+            var mockSet = GetMockSet(data);
+            var moqDb = new Mock<AppDbContext>();
+            moqDb.Setup(x => x.Users).Returns(mockSet.Object);
+
             var sut = new UserRepository();
 
             // Act
-            sut.Save(user);
-            user.ScreenName = "updated name";
+            var user = new User() {UserId = 100, ScreenName = "Updated User" };
             sut.Save(user);
             var result = sut.GetUserById(user.UserId);
 
             // Assert
-            Assert.AreEqual("updated name", result.ScreenName);
+            Assert.AreEqual("Updated User", result.ScreenName);
         }
     }
 }
