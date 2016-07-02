@@ -130,6 +130,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkerService\AccountService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -180,6 +181,16 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nuts.Entity\Nuts.Entity.csproj">
+      <Project>{fbd3bb52-ef67-43fc-86ac-68f44147d0b4}</Project>
+      <Name>Nuts.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nuts.Repository\Nuts.Repository.csproj">
+      <Project>{fbe8fb8c-efa3-465b-a7ea-9a10efeecbaf}</Project>
+      <Name>Nuts.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
