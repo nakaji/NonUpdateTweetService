@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +16,12 @@ namespace Nuts.Service.Test
         public void Status_ツイートする()
         {
             // Arrange
-            var sut = new Twitter();
+            var accessToken = ConfigurationManager.AppSettings["AccessToken"];
+            var accessTokenSecret = ConfigurationManager.AppSettings["AccessTokenSecret"];
+            var sut = new Twitter(accessToken, accessTokenSecret);
 
             // Act
-            
+            sut.UpdateStatusAsync("てすと").Wait();
 
             // Assert
 
