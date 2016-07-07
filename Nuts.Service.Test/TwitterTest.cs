@@ -24,7 +24,6 @@ namespace Nuts.Service.Test
             sut.UpdateStatusAsync("てすと").Wait();
 
             // Assert
-
         }
     }
 }
