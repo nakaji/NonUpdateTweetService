@@ -13,6 +13,7 @@ namespace Nuts.Entity
         public AppDbContext() : base("NutsConnection") { }
 
         public virtual IDbSet<User> Users { get; set; }
+        public virtual IDbSet<Setting> Settings { get; set; }
     }
 
     public static class DatabaseInitializer
