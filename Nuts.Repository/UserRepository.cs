@@ -1,6 +1,7 @@
 ﻿using Nuts.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace Nuts.Repository
 
         public User GetUserById(long userId)
         {
-            return _db.Users.FirstOrDefault(x => x.UserId == userId);
+            return _db.Users.Include("Settings").FirstOrDefault(x => x.UserId == userId);
         }
 
         public void Save(User user)
