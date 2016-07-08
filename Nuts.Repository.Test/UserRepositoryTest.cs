@@ -92,7 +92,7 @@ namespace Nuts.Repository.Test
             var moqDb = new Mock<AppDbContext>();
             moqDb.Setup(x => x.Users).Returns(mockSet.Object);
 
-            var sut = new UserRepository();
+            var sut = new UserRepository(moqDb.Object);
 
             // Act
             var user = new User() {UserId = 100, ScreenName = "Updated User" };
