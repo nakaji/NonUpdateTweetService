@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Nuts.Web.WorkerService;
 
 namespace Nuts.Web.Controllers
 {
@@ -11,7 +12,9 @@ namespace Nuts.Web.Controllers
         // GET: Settings
         public ActionResult Index()
         {
-            return View();
+            var service = new SettingService();
+            var model = service.GetSettingsIndexViewModel(104183931);
+            return View(model);
         }
     }
 }
