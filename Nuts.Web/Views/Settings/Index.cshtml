@@ -5,24 +5,28 @@
 
 <h2>Index</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <td>サイト名</td>
-            <td>Rss URL</td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var s in Model.Settings)
-        {
+<div class="container">
+    @Html.ActionLink("新規登録", "New", null, new { @class = "btn btn-default" })
+
+    <table class="table">
+        <thead>
             <tr>
-                <th scope="row">1</th>
-                <td>サイト名称</td>
-                <td>@s.RssUrl</td>
-                <td>編集 / 削除</td>
+                <th>#</th>
+                <td>サイト名</td>
+                <td>Rss URL</td>
+                <td></td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var s in Model.Settings)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>サイト名称</td>
+                    <td>@s.RssUrl</td>
+                    <td>編集 / 削除</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
