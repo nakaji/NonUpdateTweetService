@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Nuts.Web.ViewModels;
+using Moq;
+using Nuts.Entity;
+using Nuts.Repository;
 using Nuts.Web.WorkerService;
+using Setting = Nuts.Entity.Setting;
 
 namespace Nuts.Web.Test.WorkerService
 {
@@ -16,13 +15,28 @@ namespace Nuts.Web.Test.WorkerService
         public void GetSettingsIndexViewModel_UserIdから取得する()
         {
             // Arrange
-            var sut = new SettingService();
+            var moq = new Mock<IUserRepository>();
+            moq.Setup(x => x.GetUserById(100)).Returns(new User()
+            {
+                UserId = 100,
+                ScreenName = "ScreenName",
+                Settings = new List<Setting>()
+                {
+                    new Setting() {RssUrl = "http://example.com/rss1"},
+                    new Setting() {RssUrl = "http://example.com/rss2"}
+                }
+            });
+            var sut = new SettingService(moq.Object);
 
             // Act
-            var restult = sut.GetSettingsIndexViewModel(100);
+            var result = sut.GetSettingsIndexViewModel(100);
 
             // Assert
-            Assert.IsNotNull(restult);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(100, result.UserId);
+            Assert.AreEqual("ScreenName", result.ScreetName);
+            Assert.AreEqual(2, result.Settings.Count);
+            Assert.AreEqual("http://example.com/rss1", result.Settings[0].RssUrl);
         }
     }
 }

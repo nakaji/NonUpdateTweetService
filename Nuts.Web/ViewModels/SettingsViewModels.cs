@@ -8,9 +8,16 @@ namespace Nuts.Web.ViewModels
 {
     public class SettingsIndexViewModel
     {
-        public string UserId { get; set; }
+        public long UserId { get; set; }
         public string ScreetName { get; set; }
 
         public List<Setting> Settings { get; set; }
+    }
+
+    public class Setting
+    {
+        public int Id { get; set; }
+
+        public string RssUrl { get; set; }
     }
 }

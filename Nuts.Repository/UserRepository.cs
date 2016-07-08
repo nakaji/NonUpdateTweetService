@@ -8,7 +8,13 @@ using System.Threading.Tasks;
 
 namespace Nuts.Repository
 {
-    public class UserRepository
+    public interface IUserRepository
+    {
+        User GetUserById(long userId);
+        void Save(User user);
+    }
+
+    public class UserRepository : IUserRepository
     {
         private AppDbContext _db;
 
