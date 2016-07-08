@@ -19,6 +19,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuts.Service", "Nuts.Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuts.Service.Test", "Nuts.Service.Test\Nuts.Service.Test.csproj", "{B9280C67-0D8C-4EF8-B951-8A6CA3C46BE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuts.Web.Test", "Nuts.Web.Test\Nuts.Web.Test.csproj", "{D6FFA605-AF6D-4173-A2F3-7318D3E5BC4F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B9CEAC8D-1E22-4A2D-908C-FE2FF79ECEEC}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +60,10 @@ Global
 		{B9280C67-0D8C-4EF8-B951-8A6CA3C46BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9280C67-0D8C-4EF8-B951-8A6CA3C46BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9280C67-0D8C-4EF8-B951-8A6CA3C46BE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6FFA605-AF6D-4173-A2F3-7318D3E5BC4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6FFA605-AF6D-4173-A2F3-7318D3E5BC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6FFA605-AF6D-4173-A2F3-7318D3E5BC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6FFA605-AF6D-4173-A2F3-7318D3E5BC4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,5 +72,7 @@ Global
 		{2BD8B28C-5E85-4EA2-BDF5-039A7F7ACFFB} = {D923D547-0380-40A1-9E39-502D289405D4}
 		{E1CD7F37-2D26-43B9-B06C-73E80CD6D0D9} = {D923D547-0380-40A1-9E39-502D289405D4}
 		{B9280C67-0D8C-4EF8-B951-8A6CA3C46BE3} = {D923D547-0380-40A1-9E39-502D289405D4}
+		{D6FFA605-AF6D-4173-A2F3-7318D3E5BC4F} = {D923D547-0380-40A1-9E39-502D289405D4}
+		{B9CEAC8D-1E22-4A2D-908C-FE2FF79ECEEC} = {D923D547-0380-40A1-9E39-502D289405D4}
 	EndGlobalSection
 EndGlobal

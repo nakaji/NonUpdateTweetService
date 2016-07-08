@@ -31,6 +31,7 @@ namespace Nuts.Web.Controllers
             var token = await oAuthSession.GetTokensAsync(oauth_verifier);
 
             TempData["IsAuthenticated"] = true;
+            TempData["UserId"] = token.UserId;
 
             var service = new AccountService();
             service.Save(token.UserId, token.ScreenName, token.AccessToken, token.AccessTokenSecret);

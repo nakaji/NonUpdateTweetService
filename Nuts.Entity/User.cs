@@ -12,9 +12,12 @@ namespace Nuts.Entity
     public class User
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long UserId { get; set; }
         public string ScreenName { get; set; }
         public string AccessToken { get; set; }
         public string AccessTokenSecret { get; set; }
+
+        public List<Setting> Settings { get; set; }
     }
 }

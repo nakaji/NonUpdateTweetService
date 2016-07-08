@@ -62,6 +62,28 @@ namespace Nuts.Repository.Test
         }
 
         [TestMethod]
+        public void GetUserById_Settingsも合わせて取得()
+        {
+            // Arrange
+            var sut = new UserRepository();
+            var newUser = new User()
+            {
+                UserId = 100,
+                Settings = new List<Setting>()
+                {
+                    new Setting() {RssUrl = "http://example.com/rss"}
+                }
+            };
+            sut.Save(newUser);
+
+            // Act
+            var result = sut.GetUserById(100);
+
+            // Assert
+            Assert.AreEqual("http://example.com/rss", result.Settings[0].RssUrl);
+        }
+
+        [TestMethod]
         public void Save_ユーザー情報を保存する()
         {
             // Arrange
@@ -95,7 +117,7 @@ namespace Nuts.Repository.Test
             var sut = new UserRepository(moqDb.Object);
 
             // Act
-            var user = new User() {UserId = 100, ScreenName = "Updated User" };
+            var user = new User() { UserId = 100, ScreenName = "Updated User" };
             sut.Save(user);
             var result = sut.GetUserById(user.UserId);
 

@@ -52,6 +52,7 @@
     <Compile Include="AppDbContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setting.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
