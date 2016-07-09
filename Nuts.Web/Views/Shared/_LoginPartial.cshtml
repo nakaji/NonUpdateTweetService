@@ -1,5 +1,5 @@
 ﻿@{
-    var isAuthenticated = TempData["IsAuthenticated"];
+    var isAuthenticated = Session["IsAuthenticated"];
 }
 @if (isAuthenticated != null && (bool)isAuthenticated)
 {

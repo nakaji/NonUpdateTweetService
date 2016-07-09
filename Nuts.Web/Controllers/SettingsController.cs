@@ -13,7 +13,7 @@ namespace Nuts.Web.Controllers
         public ActionResult Index()
         {
             var service = new SettingService();
-            var model = service.GetSettingsIndexViewModel(long.Parse(TempData["UserId"].ToString()));
+            var model = service.GetSettingsIndexViewModel(long.Parse(Session["UserId"].ToString()));
             return View(model);
         }
     }
