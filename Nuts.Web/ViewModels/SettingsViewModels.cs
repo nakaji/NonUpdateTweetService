@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Nuts.Entity;
@@ -26,6 +27,7 @@ namespace Nuts.Web.ViewModels
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "{0}は必須です。")]
         public string RssUrl { get; set; }
     }
 }

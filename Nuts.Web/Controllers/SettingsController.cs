@@ -26,5 +26,16 @@ namespace Nuts.Web.Controllers
             var model = service.GetSettingsNewViewModel(userId);
             return View(model);
         }
+        [HttpPost]
+        public ActionResult New(SettingsNewViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
