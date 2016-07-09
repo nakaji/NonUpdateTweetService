@@ -11,7 +11,9 @@ namespace Nuts.Web.WorkerService
     {
         private readonly IUserRepository _repository;
 
-        public SettingService() : this(new UserRepository()) { }
+        public SettingService() : this(new UserRepository())
+        {
+        }
 
         public SettingService(IUserRepository repository)
         {
@@ -27,9 +29,21 @@ namespace Nuts.Web.WorkerService
                 UserId = user.UserId,
                 ScreetName = user.ScreenName,
                 Settings = user.Settings.Select(x => new Setting() { Id = x.Id, RssUrl = x.RssUrl }).ToList()
-        };
+            };
 
-            
+            return model;
+        }
+
+        public SettingsNewViewModel GetSettingsNewViewModel(long userId)
+        {
+            var user = _repository.GetUserById(userId);
+
+            var model = new SettingsNewViewModel()
+            {
+                UserId = user.UserId,
+                ScreetName = user.ScreenName,
+                Setting = new Setting() { RssUrl = "" }
+            };
 
             return model;
         }
