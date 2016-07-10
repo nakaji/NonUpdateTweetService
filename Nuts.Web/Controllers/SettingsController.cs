@@ -34,6 +34,9 @@ namespace Nuts.Web.Controllers
                 return View();
             }
 
+            var service = new SettingService();
+            service.AddNewSetting(model);
+
             return RedirectToAction("Index");
         }
 

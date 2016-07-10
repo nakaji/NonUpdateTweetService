@@ -47,5 +47,19 @@ namespace Nuts.Web.WorkerService
 
             return model;
         }
+
+        public void AddNewSetting(SettingsNewViewModel model)
+        {
+            var repository = new UserRepository();
+
+            var user = _repository.GetUserById(model.UserId);
+            var setting = new Entity.Setting()
+            {
+                RssUrl = model.Setting.RssUrl
+            };
+            user.Settings.Add(setting);
+
+            repository.Save(user);
+        }
     }
 }
