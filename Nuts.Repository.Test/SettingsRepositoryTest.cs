@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Castle.Core.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Nuts.Entity;
@@ -31,9 +32,9 @@ namespace Nuts.Repository.Test
             // Arrange
             var data =new List<Setting>()
             {
-                new Setting() {Id = 1, User_UserId = 100},
-                new Setting() {Id = 2, User_UserId = 100},
-                new Setting() {Id = 3, User_UserId = 300},
+                new Setting() {Id = 1, UserUserId = 100},
+                new Setting() {Id = 2, UserUserId = 100},
+                new Setting() {Id = 3, UserUserId = 300},
             };
             var mockSet = GetMockSet(data);
             var moqDb = new Mock<AppDbContext>();
@@ -45,6 +46,37 @@ namespace Nuts.Repository.Test
             
             // Assert
             Assert.AreEqual(2,result.Count());
+        }
+
+        [TestMethod]
+        public void Save_UserIdを指定して追加()
+        {
+            // Arrange
+            var db = new AppDbContext();
+            db.Settings.ForEach(x => db.Settings.Remove(x));
+            db.Users.ForEach(x => db.Users.Remove(x));
+            db.SaveChanges();
+
+            var userRepository = new UserRepository();
+            var newUser = new User()
+            {
+                UserId = 100,
+                Settings = new List<Setting>()
+                {
+                    new Setting() {RssUrl = "http://example.com/rss"}
+                }
+            };
+            userRepository.Save(newUser);
+            var sut = new SettingsRepository();
+
+            // Act
+            sut.Save(new Setting() { RssUrl = "url1", UserUserId = 100 });
+            sut.Save(new Setting() { RssUrl = "url2", UserUserId = 100 });
+            sut.Save(new Setting() { RssUrl = "url3", UserUserId = 100 });
+
+            // Assert
+            var result = sut.FindByUserId(100);
+            Assert.AreEqual(4, result.Count());
         }
     }
 }

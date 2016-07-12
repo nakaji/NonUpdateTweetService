@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,13 @@ namespace Nuts.Repository
 
         public IQueryable<Setting> FindByUserId(long userId)
         {
-            return _db.Settings.Where(x => x.User_UserId == userId);
+            return _db.Settings.Where(x => x.UserUserId == userId);
+        }
+
+        public void Save(Setting setting)
+        {
+            _db.Settings.AddOrUpdate(setting);
+            _db.SaveChanges();
         }
     }
 }
