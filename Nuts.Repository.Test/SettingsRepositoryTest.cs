@@ -78,5 +78,36 @@ namespace Nuts.Repository.Test
             var result = sut.FindByUserId(200);
             Assert.AreEqual(4, result.Count());
         }
+
+        [TestMethod]
+        public void Save_UserIdを指定して更新()
+        {
+            // Arrange
+            var db = new AppDbContext();
+            db.Settings.ForEach(x => db.Settings.Remove(x));
+            db.Users.ForEach(x => db.Users.Remove(x));
+            db.SaveChanges();
+
+            var userRepository = new UserRepository();
+            var newUser = new User()
+            {
+                UserId = 201,
+                Settings = new List<Setting>()
+                {
+                    new Setting() {RssUrl = "http://example.com/rss"}
+                }
+            };
+            userRepository.Save(newUser);
+            var sut = new SettingsRepository();
+
+            // Act
+            var data = sut.FindByUserId(201).First();
+            data.RssUrl = "http://example.com/Updated";
+            sut.Save(data);
+
+            // Assert
+            var result = sut.FindByUserId(201).First();
+            Assert.AreEqual("http://example.com/Updated", result.RssUrl);
+        }
     }
 }
