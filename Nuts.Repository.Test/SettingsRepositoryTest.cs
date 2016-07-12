@@ -60,7 +60,7 @@ namespace Nuts.Repository.Test
             var userRepository = new UserRepository();
             var newUser = new User()
             {
-                UserId = 100,
+                UserId = 200,
                 Settings = new List<Setting>()
                 {
                     new Setting() {RssUrl = "http://example.com/rss"}
@@ -70,12 +70,12 @@ namespace Nuts.Repository.Test
             var sut = new SettingsRepository();
 
             // Act
-            sut.Save(new Setting() { RssUrl = "url1", UserUserId = 100 });
-            sut.Save(new Setting() { RssUrl = "url2", UserUserId = 100 });
-            sut.Save(new Setting() { RssUrl = "url3", UserUserId = 100 });
+            sut.Save(new Setting() { RssUrl = "url1", UserUserId = 200 });
+            sut.Save(new Setting() { RssUrl = "url2", UserUserId = 200 });
+            sut.Save(new Setting() { RssUrl = "url3", UserUserId = 200 });
 
             // Assert
-            var result = sut.FindByUserId(100);
+            var result = sut.FindByUserId(200);
             Assert.AreEqual(4, result.Count());
         }
     }
