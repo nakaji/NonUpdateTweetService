@@ -20,12 +20,12 @@ namespace Nuts.Entity.Test
             db.SaveChanges();
 
             // Act
-            var setting = new Setting() { RssUrl = "http://example.com/rss", User_UserId = userId };
+            var setting = new Setting() { RssUrl = "http://example.com/rss", UserUserId = userId };
             db.Settings.Add(setting);
             db.SaveChanges();
 
             // Assert
-            var result = db.Settings.Where(x => x.User_UserId == userId).ToList();
+            var result = db.Settings.Where(x => x.UserUserId == userId).ToList();
             Assert.AreEqual(1, result.Count());
             Assert.AreEqual("http://example.com/rss", result[0].RssUrl);
         }
