@@ -50,16 +50,15 @@ namespace Nuts.Web.WorkerService
 
         public void AddNewSetting(SettingsNewViewModel model)
         {
-            var repository = new UserRepository();
+            var repository = new SettingsRepository();
 
-            var user = _repository.GetUserById(model.UserId);
             var setting = new Entity.Setting()
             {
-                RssUrl = model.Setting.RssUrl
+                RssUrl = model.Setting.RssUrl,
+                UserUserId = model.UserId,
             };
-            user.Settings.Add(setting);
 
-            repository.Save(user);
+            repository.Save(setting);
         }
     }
 }
