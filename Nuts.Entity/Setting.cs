@@ -11,5 +11,7 @@ namespace Nuts.Entity
         public int Id { get; set; }
 
         public string RssUrl { get; set; }
+        public long User_UserId { get; set; }
+
     }
 }
