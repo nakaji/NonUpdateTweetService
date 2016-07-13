@@ -26,6 +26,7 @@ namespace Nuts.Web.Controllers
             var model = service.GetSettingsNewViewModel(userId);
             return View(model);
         }
+
         [HttpPost]
         public ActionResult New(SettingsNewViewModel model)
         {

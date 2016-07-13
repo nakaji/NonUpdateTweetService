@@ -9,18 +9,19 @@ namespace Nuts.Web.Test.Controller
     public class SettingsControllerTest
     {
         [TestMethod]
-        public void New_RssURLが未入力の場合は同じ画面へ戻る()
+        public void New_モデルがエラーの場合は元の画面へ戻る()
         {
             // Arrange
             var sut = new SettingsController();
-
+            sut.ModelState.Clear();
+            
             // Act
-            var model = new SettingsNewViewModel() { Setting = new Setting() { RssUrl = "" } };
-            var result = sut.New(model) as RedirectToRouteResult;
+            sut.ModelState.AddModelError("RssUrl", "必須ですわ");
+            var result = sut.New(new SettingsNewViewModel()) as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual("Index", result.RouteValues["Action"]);
+            Assert.AreEqual("", result.ViewName);
         }
     }
 }
