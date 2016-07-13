@@ -42,7 +42,6 @@ namespace Nuts.Repository
                 u.ScreenName = user.ScreenName;
                 u.AccessToken = user.AccessToken;
                 u.AccessTokenSecret = user.AccessTokenSecret;
-                u.Settings = user.Settings;
             }
             _db.SaveChanges();
         }
