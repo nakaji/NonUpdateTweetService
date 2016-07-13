@@ -21,7 +21,7 @@ namespace Nuts.Service.Test
             var sut = new Twitter(accessToken, accessTokenSecret);
 
             // Act
-            sut.UpdateStatusAsync("てすと").Wait();
+            sut.UpdateStatusAsync("てすと " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")).Wait();
 
             // Assert
         }
