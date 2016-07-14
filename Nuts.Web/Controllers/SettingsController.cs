@@ -19,6 +19,7 @@ namespace Nuts.Web.Controllers
             return View(model);
         }
 
+        // GET: Settings/New
         public ActionResult New()
         {
             var userId = long.Parse(Session["UserId"].ToString());
@@ -27,6 +28,7 @@ namespace Nuts.Web.Controllers
             return View(model);
         }
 
+        // Post: Settings/New
         [HttpPost]
         public ActionResult New(SettingsNewViewModel model)
         {
