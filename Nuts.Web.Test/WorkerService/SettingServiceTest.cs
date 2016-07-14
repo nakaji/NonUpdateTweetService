@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Nuts.Entity;
@@ -66,5 +67,67 @@ namespace Nuts.Web.Test.WorkerService
             Assert.IsNotNull(result.Setting);
             Assert.AreEqual("", result.Setting.RssUrl);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void SettingsEditViewModel_存在しないユーザIDが指定された場合はInvalidOperationException()
+        {
+            // Arrange
+            var moq = new Mock<IUserRepository>();
+            moq.Setup(x => x.GetUserById(It.IsAny<int>())).Returns(() => null);
+            var sut = new SettingService(moq.Object);
+
+            // Act
+            var result = sut.GetSettingsEditViewModel(100, 1);
+
+            // Assert
+        }
+
+        [TestMethod]
+        public void SettingsEditViewModel_存在しない設定の場合はnullを返す()
+        {
+            // Arrange
+            var moq = new Mock<IUserRepository>();
+            moq.Setup(x => x.GetUserById(100)).Returns(new User()
+            {
+                UserId = 100,
+                ScreenName = "ScreenName",
+                Settings = null
+            });
+            var sut = new SettingService(moq.Object);
+
+            // Act
+            var result = sut.GetSettingsEditViewModel(100, 1);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void SettingsEditViewModel_ユーザIDと設定IDにマッチするものがあった場合()
+        {
+            // Arrange
+            var moq = new Mock<IUserRepository>();
+            moq.Setup(x => x.GetUserById(100)).Returns(new User()
+            {
+                UserId = 100,
+                ScreenName = "ScreenName",
+                Settings = new List<Setting>()
+                {
+                    new Setting() {Id = 1, RssUrl = "http://example.com/rss1"},
+                    new Setting() {Id = 2, RssUrl = "http://example.com/rss2"}
+                }
+            });
+            var sut = new SettingService(moq.Object);
+
+            // Act
+            var result = sut.GetSettingsEditViewModel(100, 1);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Setting.Id);
+            Assert.AreEqual("http://example.com/rss1", result.Setting.RssUrl);
+        }
+
     }
 }

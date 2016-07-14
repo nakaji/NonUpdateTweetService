@@ -23,6 +23,14 @@ namespace Nuts.Web.ViewModels
         public Setting Setting { get; set; }
     }
 
+    public class SettingsEditViewModel
+    {
+        public long UserId { get; set; }
+        public string ScreetName { get; set; }
+
+        public Setting Setting { get; set; }
+    }
+
     public class Setting
     {
         public int Id { get; set; }

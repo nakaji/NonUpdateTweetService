@@ -60,5 +60,23 @@ namespace Nuts.Web.WorkerService
 
             repository.Save(setting);
         }
+
+        public SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId)
+        {
+            var user = _repository.GetUserById(userId);
+            if (user == null) throw new InvalidOperationException();
+
+            var setting = user.Settings?.FirstOrDefault(x => x.Id == settingId);
+            if (setting == null) return null;
+
+            var model = new SettingsEditViewModel()
+            {
+                UserId = user.UserId,
+                ScreetName = user.ScreenName,
+                Setting = new Setting() { Id = setting.Id, RssUrl = setting.RssUrl },
+            };
+
+            return model;
+        }
     }
 }
