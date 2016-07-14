@@ -1,0 +1,32 @@
+﻿@model Nuts.Web.ViewModels.SettingsEditViewModel
+@{
+    ViewBag.Title = "修正";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.UserId)
+    @Html.HiddenFor(model => model.Setting.Id)
+
+    <div class="form-horizontal">
+
+        @* RssURL *@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Setting.RssUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Setting.RssUrl, new { htmlAttributes = new { @class = "form-control" , type = "url" } })
+                @Html.ValidationMessageFor(model => model.Setting.RssUrl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="更新" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}

@@ -43,5 +43,16 @@ namespace Nuts.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Settings/Edit/{id}
+        public ActionResult Edit(int id)
+        {
+            var userId = long.Parse(Session["UserId"].ToString());
+            var service = new SettingService();
+            var model = service.GetSettingsEditViewModel(userId, id);
+
+            if (model == null) return HttpNotFound();
+
+            return View(model);
+        }
     }
 }
