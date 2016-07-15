@@ -7,7 +7,15 @@ using Nuts.Web.ViewModels;
 
 namespace Nuts.Web.WorkerService
 {
-    public class SettingService
+    public interface ISettingService
+    {
+        SettingsIndexViewModel GetSettingsIndexViewModel(long userId);
+        SettingsNewViewModel GetSettingsNewViewModel(long userId);
+        void AddNewSetting(SettingsNewViewModel model);
+        SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId);
+    }
+
+    public class SettingService: ISettingService
     {
         private readonly IUserRepository _repository;
 

@@ -10,12 +10,22 @@ namespace Nuts.Web.Controllers
 {
     public class SettingsController : Controller
     {
+        private ISettingService _service;
+
+        public SettingsController() : this(new SettingService())
+        {
+        }
+
+        public SettingsController(ISettingService service)
+        {
+            _service = service;
+        }
+
         // GET: Settings
         public ActionResult Index()
         {
             var userId = long.Parse(Session["UserId"].ToString());
-            var service = new SettingService();
-            var model = service.GetSettingsIndexViewModel(userId);
+            var model = _service.GetSettingsIndexViewModel(userId);
             return View(model);
         }
 
@@ -23,8 +33,7 @@ namespace Nuts.Web.Controllers
         public ActionResult New()
         {
             var userId = long.Parse(Session["UserId"].ToString());
-            var service = new SettingService();
-            var model = service.GetSettingsNewViewModel(userId);
+            var model = _service.GetSettingsNewViewModel(userId);
             return View(model);
         }
 
@@ -37,8 +46,7 @@ namespace Nuts.Web.Controllers
                 return View();
             }
 
-            var service = new SettingService();
-            service.AddNewSetting(model);
+            _service.AddNewSetting(model);
 
             return RedirectToAction("Index");
         }
@@ -47,8 +55,7 @@ namespace Nuts.Web.Controllers
         public ActionResult Edit(int id)
         {
             var userId = long.Parse(Session["UserId"].ToString());
-            var service = new SettingService();
-            var model = service.GetSettingsEditViewModel(userId, id);
+            var model = _service.GetSettingsEditViewModel(userId, id);
 
             if (model == null) return HttpNotFound();
 

@@ -87,6 +87,12 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fakes\FakeControllerContext.cs" />
+    <Compile Include="Fakes\FakeHttpContext.cs" />
+    <Compile Include="Fakes\FakeHttpRequest.cs" />
+    <Compile Include="Fakes\FakeHttpSessionState.cs" />
+    <Compile Include="Fakes\FakeIdentity.cs" />
+    <Compile Include="Fakes\FakePrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controller\SettingsControllerTest.cs" />
     <Compile Include="WorkerService\SettingServiceTest.cs" />
