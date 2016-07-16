@@ -61,5 +61,21 @@ namespace Nuts.Web.Controllers
 
             return View(model);
         }
+
+        // POST: Settings/Edit/{id}
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "Setting")]SettingsNewViewModel model)
+        {
+            var userId = long.Parse(Session["UserId"].ToString());
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            _service.EditSetting(model);
+
+            return RedirectToAction("Index");
+        }
     }
 }

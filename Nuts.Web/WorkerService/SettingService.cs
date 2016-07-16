@@ -13,6 +13,7 @@ namespace Nuts.Web.WorkerService
         SettingsNewViewModel GetSettingsNewViewModel(long userId);
         void AddNewSetting(SettingsNewViewModel model);
         SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId);
+        void EditSetting(SettingsNewViewModel model);
     }
 
     public class SettingService: ISettingService
@@ -85,6 +86,20 @@ namespace Nuts.Web.WorkerService
             };
 
             return model;
+        }
+
+        public void EditSetting(SettingsNewViewModel model)
+        {
+            var repository = new SettingsRepository();
+
+            var setting = new Entity.Setting()
+            {
+                Id = model.Setting.Id,
+                RssUrl = model.Setting.RssUrl,
+                UserUserId = model.UserId,
+            };
+
+            repository.Save(setting);
         }
     }
 }
