@@ -10,12 +10,22 @@ namespace Nuts.Web.Controllers
 {
     public class SettingsController : Controller
     {
+        private ISettingService _service;
+
+        public SettingsController() : this(new SettingService())
+        {
+        }
+
+        public SettingsController(ISettingService service)
+        {
+            _service = service;
+        }
+
         // GET: Settings
         public ActionResult Index()
         {
             var userId = long.Parse(Session["UserId"].ToString());
-            var service = new SettingService();
-            var model = service.GetSettingsIndexViewModel(userId);
+            var model = _service.GetSettingsIndexViewModel(userId);
             return View(model);
         }
 
@@ -23,8 +33,7 @@ namespace Nuts.Web.Controllers
         public ActionResult New()
         {
             var userId = long.Parse(Session["UserId"].ToString());
-            var service = new SettingService();
-            var model = service.GetSettingsNewViewModel(userId);
+            var model = _service.GetSettingsNewViewModel(userId);
             return View(model);
         }
 
@@ -37,11 +46,36 @@ namespace Nuts.Web.Controllers
                 return View();
             }
 
-            var service = new SettingService();
-            service.AddNewSetting(model);
+            _service.AddNewSetting(model);
 
             return RedirectToAction("Index");
         }
 
+        // GET: Settings/Edit/{id}
+        public ActionResult Edit(int id)
+        {
+            var userId = long.Parse(Session["UserId"].ToString());
+            var model = _service.GetSettingsEditViewModel(userId, id);
+
+            if (model == null) return HttpNotFound();
+
+            return View(model);
+        }
+
+        // POST: Settings/Edit/{id}
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "Setting")]SettingsNewViewModel model)
+        {
+            var userId = long.Parse(Session["UserId"].ToString());
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            _service.EditSetting(model);
+
+            return RedirectToAction("Index");
+        }
     }
 }

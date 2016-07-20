@@ -24,7 +24,11 @@
                     <th scope="row">1</th>
                     <td>サイト名称</td>
                     <td>@s.RssUrl</td>
-                    <td>編集 / 削除</td>
+                    <td>
+                        @Html.ActionLink("編集", "Edit", new { id = s.Id})
+                        /
+                        削除
+                    </td>
                 </tr>
             }
         </tbody>
