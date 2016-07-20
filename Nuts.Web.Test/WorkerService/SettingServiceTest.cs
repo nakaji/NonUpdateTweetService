@@ -34,8 +34,6 @@ namespace Nuts.Web.Test.WorkerService
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(100, result.UserId);
-            Assert.AreEqual("ScreenName", result.ScreetName);
             Assert.AreEqual(2, result.Settings.Count);
             Assert.AreEqual("http://example.com/rss1", result.Settings[0].RssUrl);
         }
@@ -58,14 +56,12 @@ namespace Nuts.Web.Test.WorkerService
             var sut = new SettingService(moq.Object);
 
             // Act
-            var result = sut.GetSettingsNewViewModel(100);
+            var result = sut.GetSettingsNewViewModel();
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(100, result.UserId);
-            Assert.AreEqual("ScreenName", result.ScreetName);
-            Assert.IsNotNull(result.Setting);
-            Assert.AreEqual("", result.Setting.RssUrl);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(string.IsNullOrEmpty(result.RssUrl));
         }
 
         [TestMethod]
@@ -125,8 +121,8 @@ namespace Nuts.Web.Test.WorkerService
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Setting.Id);
-            Assert.AreEqual("http://example.com/rss1", result.Setting.RssUrl);
+            Assert.AreEqual(1, result.Id);
+            Assert.AreEqual("http://example.com/rss1", result.RssUrl);
         }
 
     }
