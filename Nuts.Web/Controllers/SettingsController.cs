@@ -32,21 +32,22 @@ namespace Nuts.Web.Controllers
         // GET: Settings/New
         public ActionResult New()
         {
-            var userId = long.Parse(Session["UserId"].ToString());
-            var model = _service.GetSettingsNewViewModel(userId);
+            var model = _service.GetSettingsNewViewModel();
             return View(model);
         }
 
         // Post: Settings/New
         [HttpPost]
-        public ActionResult New(SettingsNewViewModel model)
+        public ActionResult New([Bind(Include = "RssUrl")]SettingsNewViewModel model)
         {
+            var userId = long.Parse(Session["UserId"].ToString());
+
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            _service.AddNewSetting(model);
+            _service.AddNewSetting(userId, model);
 
             return RedirectToAction("Index");
         }
@@ -55,6 +56,7 @@ namespace Nuts.Web.Controllers
         public ActionResult Edit(int id)
         {
             var userId = long.Parse(Session["UserId"].ToString());
+
             var model = _service.GetSettingsEditViewModel(userId, id);
 
             if (model == null) return HttpNotFound();
@@ -64,7 +66,7 @@ namespace Nuts.Web.Controllers
 
         // POST: Settings/Edit/{id}
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Setting")]SettingsNewViewModel model)
+        public ActionResult Edit([Bind(Include = "Id, RssUrl")]SettingsNewViewModel model)
         {
             var userId = long.Parse(Session["UserId"].ToString());
 
@@ -73,7 +75,7 @@ namespace Nuts.Web.Controllers
                 return View();
             }
 
-            _service.EditSetting(model);
+            _service.EditSetting(userId, model);
 
             return RedirectToAction("Index");
         }

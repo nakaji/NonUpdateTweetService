@@ -16,7 +16,12 @@ namespace Nuts.Web.Test.Controller
         public void New_モデルがエラーの場合は元の画面へ戻る()
         {
             // Arrange
-            var sut = new SettingsController();
+            var moq = new Mock<ISettingService>();
+            moq.Setup(x => x.GetSettingsEditViewModel(It.IsAny<long>(), It.IsAny<int>())).Returns(() => null);
+            var sut = new SettingsController(moq.Object);
+            var sessionItems = new SessionStateItemCollection();
+            sessionItems["UserId"] = 100;
+            sut.ControllerContext = new FakeControllerContext(sut, sessionItems);
             sut.ModelState.Clear();
 
             // Act

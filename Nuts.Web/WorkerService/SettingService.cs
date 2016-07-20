@@ -10,10 +10,10 @@ namespace Nuts.Web.WorkerService
     public interface ISettingService
     {
         SettingsIndexViewModel GetSettingsIndexViewModel(long userId);
-        SettingsNewViewModel GetSettingsNewViewModel(long userId);
-        void AddNewSetting(SettingsNewViewModel model);
+        SettingsNewViewModel GetSettingsNewViewModel();
+        void AddNewSetting(long userId, SettingsNewViewModel model);
         SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId);
-        void EditSetting(SettingsNewViewModel model);
+        void EditSetting(long userId, SettingsNewViewModel model);
     }
 
     public class SettingService: ISettingService
@@ -35,36 +35,25 @@ namespace Nuts.Web.WorkerService
 
             var model = new SettingsIndexViewModel()
             {
-                UserId = user.UserId,
-                ScreetName = user.ScreenName,
                 Settings = user.Settings.Select(x => new Setting() { Id = x.Id, RssUrl = x.RssUrl }).ToList()
             };
 
             return model;
         }
 
-        public SettingsNewViewModel GetSettingsNewViewModel(long userId)
+        public SettingsNewViewModel GetSettingsNewViewModel()
         {
-            var user = _repository.GetUserById(userId);
-
-            var model = new SettingsNewViewModel()
-            {
-                UserId = user.UserId,
-                ScreetName = user.ScreenName,
-                Setting = new Setting() { RssUrl = "" }
-            };
-
-            return model;
+            return new SettingsNewViewModel();
         }
 
-        public void AddNewSetting(SettingsNewViewModel model)
+        public void AddNewSetting(long userId, SettingsNewViewModel model)
         {
             var repository = new SettingsRepository();
 
             var setting = new Entity.Setting()
             {
-                RssUrl = model.Setting.RssUrl,
-                UserUserId = model.UserId,
+                RssUrl = model.RssUrl,
+                UserUserId = userId,
             };
 
             repository.Save(setting);
@@ -80,23 +69,22 @@ namespace Nuts.Web.WorkerService
 
             var model = new SettingsEditViewModel()
             {
-                UserId = user.UserId,
-                ScreetName = user.ScreenName,
-                Setting = new Setting() { Id = setting.Id, RssUrl = setting.RssUrl },
+                Id = setting.Id,
+                RssUrl = setting.RssUrl,
             };
 
             return model;
         }
 
-        public void EditSetting(SettingsNewViewModel model)
+        public void EditSetting(long userId, SettingsNewViewModel model)
         {
             var repository = new SettingsRepository();
 
             var setting = new Entity.Setting()
             {
-                Id = model.Setting.Id,
-                RssUrl = model.Setting.RssUrl,
-                UserUserId = model.UserId,
+                Id = model.Id,
+                RssUrl = model.RssUrl,
+                UserUserId = userId,
             };
 
             repository.Save(setting);
