@@ -56,7 +56,7 @@ namespace Nuts.Entity.Test
             var user = db.Users.Include("Settings").FirstOrDefault(x => x.UserId == 100);
 
             // Assert
-            Assert.AreEqual("http://example.com/rss", user.Settings[0].RssUrl);
+            Assert.AreEqual("http://example.com/rss", user.Settings.First().RssUrl);
 
         }
     }

@@ -39,7 +39,7 @@ namespace Nuts.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<ActionResult> LogOff()
+        public ActionResult LogOff()
         {
             Session["IsAuthenticated"] = false;
 

@@ -18,6 +18,6 @@ namespace Nuts.Entity
         public string AccessToken { get; set; }
         public string AccessTokenSecret { get; set; }
 
-        public List<Setting> Settings { get; set; }
+        public ICollection<Setting> Settings { get; set; }
     }
 }

@@ -5,6 +5,7 @@ namespace Nuts.Entity.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     internal sealed class Configuration : DbMigrationsConfiguration<Nuts.Entity.AppDbContext>
     {
         public Configuration()
