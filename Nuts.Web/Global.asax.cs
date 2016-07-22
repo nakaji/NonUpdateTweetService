@@ -11,6 +11,7 @@ namespace Nuts.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

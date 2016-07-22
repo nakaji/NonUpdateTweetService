@@ -10,10 +10,15 @@ namespace Nuts.Web.WorkerService
     public interface ISettingService
     {
         SettingsIndexViewModel GetSettingsIndexViewModel(long userId);
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         SettingsNewViewModel GetSettingsNewViewModel();
+
         void AddNewSetting(long userId, SettingsNewViewModel model);
+
         SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId);
-        void EditSetting(long userId, SettingsNewViewModel model);
+
+        void EditSetting(long userId, SettingsNewViewModel model); //ToDo:SettingsEditViewModelの間違い
     }
 
     public class SettingService: ISettingService
@@ -48,6 +53,9 @@ namespace Nuts.Web.WorkerService
 
         public void AddNewSetting(long userId, SettingsNewViewModel model)
         {
+            if (model == null) throw new ArgumentNullException(nameof(model));
+            if (string.IsNullOrEmpty(model.RssUrl)) throw new ArgumentException(nameof(model.RssUrl) + " is null or empty");
+
             var repository = new SettingsRepository();
 
             var setting = new Entity.Setting()
@@ -78,6 +86,9 @@ namespace Nuts.Web.WorkerService
 
         public void EditSetting(long userId, SettingsNewViewModel model)
         {
+            if (model == null) throw new ArgumentNullException(nameof(model));
+            if (string.IsNullOrEmpty( model.RssUrl)) throw new ArgumentException(nameof(model.RssUrl) + " is null or empty");
+
             var repository = new SettingsRepository();
 
             var setting = new Entity.Setting()
