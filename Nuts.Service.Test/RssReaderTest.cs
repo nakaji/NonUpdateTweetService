@@ -11,11 +11,10 @@ namespace Nuts.Service.Test
         public void URLからRSSを取得する()
         {
             // Arrange
-            var reader = new RssReader();
             var url = "http://blog.nakajix.jp/feed";
 
             // Act
-            SyndicationFeed result = reader.GetFeed(url);
+            SyndicationFeed result = RssReader.GetFeed(url);
 
             // Assert
             Assert.AreEqual("なか日記", result.Title.Text);
