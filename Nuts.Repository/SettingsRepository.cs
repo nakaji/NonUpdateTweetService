@@ -12,6 +12,7 @@ namespace Nuts.Repository
     {
         private AppDbContext _db;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:スコープを失う前にオブジェクトを破棄")]
         public SettingsRepository() : this(new AppDbContext()) { }
 
         public SettingsRepository(AppDbContext db)
