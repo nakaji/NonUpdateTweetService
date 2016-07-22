@@ -13,6 +13,7 @@ namespace Nuts.Web.Controllers
     public class AccountController : Controller
     {
         // GET: Account/Login
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Login")]
         public async Task<ActionResult> Login()
         {
             var domain = Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.UriEscaped);
