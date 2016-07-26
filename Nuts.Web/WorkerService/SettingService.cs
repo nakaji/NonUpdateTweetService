@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Nuts.Repository;
 using Nuts.Web.ViewModels;
+using WebGrease.Css.Extensions;
 
 namespace Nuts.Web.WorkerService
 {
@@ -40,7 +39,7 @@ namespace Nuts.Web.WorkerService
 
             var model = new SettingsIndexViewModel()
             {
-                Settings = user.Settings.Select(x => new Setting() { Id = x.Id, RssUrl = x.RssUrl }).ToList()
+                Settings = user.Settings.Select(x => new Setting() { Id = x.Id, RssUrl = x.RssUrl }).ToSafeReadOnlyCollection()
             };
 
             return model;
