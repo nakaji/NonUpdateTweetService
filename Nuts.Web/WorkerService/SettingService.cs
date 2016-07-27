@@ -18,24 +18,38 @@ namespace Nuts.Web.WorkerService
         SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId);
 
         void EditSetting(long userId, SettingsNewViewModel model); //ToDo:SettingsEditViewModelの間違い
+
+        void DeleteSetting(long userId, int settingId);
     }
 
     public class SettingService: ISettingService
     {
-        private readonly IUserRepository _repository;
+        private readonly IUserRepository _userRepository;
+        private readonly ISettingsRepository _settingsRepository;
 
-        public SettingService() : this(new UserRepository())
+        public SettingService() : this(new UserRepository(), new SettingsRepository())
         {
+        }
+
+        public SettingService(IUserRepository userRepository,ISettingsRepository settingsRepository)
+        {
+            _userRepository = userRepository;
+            _settingsRepository = settingsRepository;
         }
 
         public SettingService(IUserRepository repository)
         {
-            _repository = repository;
+            _userRepository = repository;
+        }
+
+        public SettingService(ISettingsRepository settingsRepository)
+        {
+            _settingsRepository = settingsRepository;
         }
 
         public SettingsIndexViewModel GetSettingsIndexViewModel(long userId)
         {
-            var user = _repository.GetUserById(userId);
+            var user = _userRepository.GetUserById(userId);
 
             var settings =
                 user.Settings.Select(x => new Setting() {Id = x.Id, RssUrl = x.RssUrl}).ToSafeReadOnlyCollection();
@@ -68,7 +82,7 @@ namespace Nuts.Web.WorkerService
 
         public SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId)
         {
-            var user = _repository.GetUserById(userId);
+            var user = _userRepository.GetUserById(userId);
             if (user == null) throw new InvalidOperationException();
 
             var setting = user.Settings?.FirstOrDefault(x => x.Id == settingId);
@@ -88,8 +102,6 @@ namespace Nuts.Web.WorkerService
             if (model == null) throw new ArgumentNullException(nameof(model));
             if (string.IsNullOrEmpty( model.RssUrl)) throw new ArgumentException(nameof(model.RssUrl) + " is null or empty");
 
-            var repository = new SettingsRepository();
-
             var setting = new Entity.Setting()
             {
                 Id = model.Id,
@@ -97,7 +109,17 @@ namespace Nuts.Web.WorkerService
                 UserUserId = userId,
             };
 
-            repository.Save(setting);
+            _settingsRepository.Save(setting);
+        }
+
+        public void DeleteSetting(long userId, int settingId)
+        {
+            var user = _userRepository.GetUserById(userId);
+
+            var setting = user?.Settings?.FirstOrDefault(x => x.Id == settingId);
+            if (setting == null) return;
+
+            _settingsRepository.Delete(setting);
         }
     }
 }

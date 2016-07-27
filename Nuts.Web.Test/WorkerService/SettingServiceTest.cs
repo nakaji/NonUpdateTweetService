@@ -163,14 +163,74 @@ namespace Nuts.Web.Test.WorkerService
             try
             {
                 // Act
-                sut.EditSetting(100, new SettingsNewViewModel() {RssUrl = ""});
+                sut.EditSetting(100, new SettingsNewViewModel() { RssUrl = "" });
             }
             catch (ArgumentException ex)
             {
                 // Assert
                 Assert.AreEqual("RssUrl is null or empty", ex.Message);
             }
+        }
 
+        [TestMethod]
+        public void DeleteSetting_指定されたユーザID及び設定IDが正しい場合には削除を行う()
+        {
+            // Arrange
+            var userID = 100L;
+            var settingId = 1;
+
+            var setting = new Setting() { Id = settingId };
+            var moqUserRepository = new Mock<IUserRepository>();
+            moqUserRepository.Setup(x => x.GetUserById(userID)).Returns(new User() { Settings = new List<Setting>() { setting } });
+
+            var moqSettingRepository = new Mock<ISettingsRepository>();
+
+            var sut = new SettingService(moqUserRepository.Object, moqSettingRepository.Object);
+
+            // Act
+            sut.DeleteSetting(userID, settingId);
+
+            // Assert
+            moqSettingRepository.Verify(x => x.Delete(setting), Times.Once);
+        }
+
+        [TestMethod]
+        public void DeleteSetting_指定されたユーザIDのユーザが存在しない場合は何もしない()
+        {
+            // Arrange
+            var moqUserRepository = new Mock<IUserRepository>();
+            moqUserRepository.Setup(x => x.GetUserById(It.IsAny<long>())).Returns(() => null);
+
+            var moqSettingRepository = new Mock<ISettingsRepository>();
+
+            var sut = new SettingService(moqUserRepository.Object, moqSettingRepository.Object);
+
+            // Act
+            sut.DeleteSetting(100, 1);
+
+            // Assert
+            moqSettingRepository.Verify(x => x.Delete(It.IsAny<Setting>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void DeleteSetting_指定された設定IDの設定が存在しない場合は何もしない()
+        {
+            // Arrange
+            var userID = 100L;
+
+            var setting = new Setting() { Id = 1 };
+            var moqUserRepository = new Mock<IUserRepository>();
+            moqUserRepository.Setup(x => x.GetUserById(userID)).Returns(new User() { Settings = new List<Setting>() { setting } });
+
+            var moqSettingRepository = new Mock<ISettingsRepository>();
+
+            var sut = new SettingService(moqUserRepository.Object, moqSettingRepository.Object);
+
+            // Act
+            sut.DeleteSetting(userID, 2);
+
+            // Assert
+            moqSettingRepository.Verify(x => x.Delete(It.IsAny<Setting>()), Times.Never);
         }
     }
 }
