@@ -37,10 +37,10 @@ namespace Nuts.Web.WorkerService
         {
             var user = _repository.GetUserById(userId);
 
-            var model = new SettingsIndexViewModel()
-            {
-                Settings = user.Settings.Select(x => new Setting() { Id = x.Id, RssUrl = x.RssUrl }).ToSafeReadOnlyCollection()
-            };
+            var settings =
+                user.Settings.Select(x => new Setting() {Id = x.Id, RssUrl = x.RssUrl}).ToSafeReadOnlyCollection();
+
+            var model = new SettingsIndexViewModel(settings);
 
             return model;
         }

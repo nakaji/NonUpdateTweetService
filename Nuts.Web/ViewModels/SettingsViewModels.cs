@@ -10,7 +10,12 @@ namespace Nuts.Web.ViewModels
 {
     public class SettingsIndexViewModel
     {
-        public ReadOnlyCollection<Setting> Settings { get; set; }
+        public SettingsIndexViewModel(ReadOnlyCollection<Setting> settings)
+        {
+            Settings = settings;
+        }
+
+        public ReadOnlyCollection<Setting> Settings { get; private set; }
     }
 
     public class Setting
