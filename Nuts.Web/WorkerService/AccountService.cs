@@ -9,6 +9,7 @@ namespace Nuts.Web.WorkerService
 {
     public class AccountService
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public void Save(long userId, string screenName, string accessToken, string accessTokenSecret)
         {
             var repo = new UserRepository();

@@ -8,6 +8,7 @@ namespace Nuts.Entity.Test
     [TestClass]
     public class SettingTest
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:スコープを失う前にオブジェクトを破棄")]
         [TestMethod]
         public void UserIdをセットしてデータを追加する()
         {
