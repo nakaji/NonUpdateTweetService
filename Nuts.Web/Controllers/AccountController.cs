@@ -26,8 +26,6 @@ namespace Nuts.Web.Controllers
             return Redirect(oAuthSession.AuthorizeUri.OriginalString);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "token")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "verifier")]
         public async Task<ActionResult> Callback(string oauth_token, string oauth_verifier)
         {
             var oAuthSession = TempData["OAuthSession"] as OAuth.OAuthSession;
