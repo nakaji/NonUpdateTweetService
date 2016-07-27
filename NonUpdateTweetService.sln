@@ -21,11 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuts.Service.Test", "Nuts.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuts.Web.Test", "Nuts.Web.Test\Nuts.Web.Test.csproj", "{D6FFA605-AF6D-4173-A2F3-7318D3E5BC4F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B9CEAC8D-1E22-4A2D-908C-FE2FF79ECEEC}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +68,5 @@ Global
 		{E1CD7F37-2D26-43B9-B06C-73E80CD6D0D9} = {D923D547-0380-40A1-9E39-502D289405D4}
 		{B9280C67-0D8C-4EF8-B951-8A6CA3C46BE3} = {D923D547-0380-40A1-9E39-502D289405D4}
 		{D6FFA605-AF6D-4173-A2F3-7318D3E5BC4F} = {D923D547-0380-40A1-9E39-502D289405D4}
-		{B9CEAC8D-1E22-4A2D-908C-FE2FF79ECEEC} = {D923D547-0380-40A1-9E39-502D289405D4}
 	EndGlobalSection
 EndGlobal
