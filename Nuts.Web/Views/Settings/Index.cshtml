@@ -6,31 +6,32 @@
 <h2>一覧</h2>
 
 <div class="container">
-    @Html.ActionLink("新規登録", "New", null, new { @class = "btn btn-default" })
+    <div class="alert-info">@TempData["message"]</div>
+    @Html.ActionLink("新規登録", "New", null, new {@class = "btn btn-default"})
 
     <table class="table">
         <thead>
-            <tr>
-                <th>#</th>
-                <td>サイト名</td>
-                <td>Rss URL</td>
-                <td></td>
-            </tr>
+        <tr>
+            <th>#</th>
+            <td>サイト名</td>
+            <td>Rss URL</td>
+            <td></td>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var s in Model.Settings)
-            {
-                <tr>
-                    <th scope="row">1</th>
-                    <td>サイト名称</td>
-                    <td>@s.RssUrl</td>
-                    <td>
-                        @Html.ActionLink("編集", "Edit", new { id = s.Id})
-                        /
-                        削除
-                    </td>
-                </tr>
-            }
+        @foreach (var s in Model.Settings)
+        {
+            <tr>
+                <th scope="row">1</th>
+                <td>サイト名称</td>
+                <td>@s.RssUrl</td>
+                <td>
+                    @Html.ActionLink("編集", "Edit", new {id = s.Id})
+                    /
+                    @Html.ActionLink("削除", "Delete", new {id = s.Id})
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>

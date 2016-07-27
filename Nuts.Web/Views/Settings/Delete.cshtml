@@ -1,0 +1,32 @@
+﻿@model Nuts.Web.ViewModels.SettingsEditViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>削除</h2>
+
+<h3>この設定を削除してもよろしいですか？</h3>
+<div>
+    <h4>SettingsEditViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RssUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RssUrl)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

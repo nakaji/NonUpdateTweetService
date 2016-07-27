@@ -8,7 +8,14 @@ using Nuts.Entity;
 
 namespace Nuts.Repository
 {
-    public class SettingsRepository
+    public interface ISettingsRepository
+    {
+        IQueryable<Setting> FindByUserId(long userId);
+        void Save(Setting setting);
+        void Delete(Setting setting);
+    }
+
+    public class SettingsRepository: ISettingsRepository
     {
         private AppDbContext _db;
 
@@ -28,6 +35,12 @@ namespace Nuts.Repository
         public void Save(Setting setting)
         {
             _db.Settings.AddOrUpdate(setting);
+            _db.SaveChanges();
+        }
+
+        public void Delete(Setting setting)
+        {
+            _db.Settings.Remove(setting);
             _db.SaveChanges();
         }
     }

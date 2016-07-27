@@ -80,5 +80,34 @@ namespace Nuts.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+        // GET: Settings/Delete/{id}
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var userId = long.Parse(Session["UserId"].ToString());
+
+            var model = _service.GetSettingsEditViewModel(userId, id);
+
+            if (model == null) return HttpNotFound();
+
+            return View(model);
+        }
+
+        // POST: Settings/Delete/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public ActionResult DeleteConfirm(int id)
+        {
+            var userId = long.Parse(Session["UserId"].ToString());
+
+            _service.DeleteSetting(userId, id);
+
+            TempData["Message"] = "削除しました。";
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
