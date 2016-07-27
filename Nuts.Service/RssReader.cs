@@ -9,9 +9,9 @@ using System.Xml;
 
 namespace Nuts.Service
 {
-    public class RssReader
+    public static class RssReader
     {
-        public SyndicationFeed GetFeed(string url)
+        public static SyndicationFeed GetFeed(string url)
         {
             using (var reader = XmlReader.Create(url))
             {

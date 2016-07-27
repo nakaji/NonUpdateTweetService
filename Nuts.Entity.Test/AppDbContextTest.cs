@@ -10,6 +10,7 @@ namespace Nuts.Entity.Test
     [TestClass]
     public class AppDbContextTest
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:スコープを失う前にオブジェクトを破棄")]
         [TestMethod]
         public void データベースを初期化する()
         {
@@ -18,9 +19,10 @@ namespace Nuts.Entity.Test
             var db = new AppDbContext();
 
             // Act
-            var result = db.Users.ToListAsync().Result;
+            db.Users.ToListAsync().Wait();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:スコープを失う前にオブジェクトを破棄")]
         [TestMethod]
         public void マイグレーションするように初期化する()
         {
@@ -31,10 +33,11 @@ namespace Nuts.Entity.Test
             var db = new AppDbContext();
 
             // Assert
-            var result = db.Users.ToListAsync().Result;
+            db.Users.ToListAsync().Wait();
 
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:スコープを失う前にオブジェクトを破棄")]
         [TestMethod]
         public void ユーザー取得時に設定も一緒に持ってくる()
         {
@@ -56,7 +59,7 @@ namespace Nuts.Entity.Test
             var user = db.Users.Include("Settings").FirstOrDefault(x => x.UserId == 100);
 
             // Assert
-            Assert.AreEqual("http://example.com/rss", user.Settings[0].RssUrl);
+            Assert.AreEqual("http://example.com/rss", user.Settings.First().RssUrl);
 
         }
     }

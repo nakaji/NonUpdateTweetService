@@ -7,6 +7,7 @@ using System.Web.Routing;
 
 namespace Nuts.Web
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1053:StaticHolderTypesShouldNotHaveConstructors")]
     public class RouteConfig
     {
         public static void RegisterRoutes(RouteCollection routes)

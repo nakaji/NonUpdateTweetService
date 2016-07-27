@@ -18,6 +18,7 @@ namespace Nuts.Repository
     {
         private AppDbContext _db;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:スコープを失う前にオブジェクトを破棄")]
         public UserRepository() : this(new AppDbContext()) { }
 
         public UserRepository(AppDbContext db)
@@ -32,6 +33,8 @@ namespace Nuts.Repository
 
         public void Save(User user)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             var u = GetUserById(user.UserId);
             if (u == null)
             {

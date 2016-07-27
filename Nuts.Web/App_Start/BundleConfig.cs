@@ -3,9 +3,11 @@ using System.Web.Optimization;
 
 namespace Nuts.Web
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1053:StaticHolderTypesShouldNotHaveConstructors")]
     public class BundleConfig
     {
         // バンドルの詳細については、http://go.microsoft.com/fwlink/?LinkId=301862  を参照してください
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:パブリック メソッドの引数の検証", MessageId = "0")]
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(

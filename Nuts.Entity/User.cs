@@ -18,6 +18,7 @@ namespace Nuts.Entity
         public string AccessToken { get; set; }
         public string AccessTokenSecret { get; set; }
 
-        public List<Setting> Settings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public ICollection<Setting> Settings { get; set; }
     }
 }

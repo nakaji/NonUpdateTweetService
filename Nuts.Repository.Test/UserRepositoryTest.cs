@@ -80,7 +80,7 @@ namespace Nuts.Repository.Test
             var result = sut.GetUserById(100);
 
             // Assert
-            Assert.AreEqual("http://example.com/rss", result.Settings[0].RssUrl);
+            Assert.AreEqual("http://example.com/rss", result.Settings.First().RssUrl);
         }
 
         [TestMethod]

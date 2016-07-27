@@ -10,6 +10,7 @@ using System.Web.SessionState;
 
 namespace Nuts.Web.Test.Fakes
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1035:ICollectionImplementationsHaveStronglyTypedMembers")]
     public class FakeHttpSessionState : HttpSessionStateBase
     {
         private readonly SessionStateItemCollection sessionItems;

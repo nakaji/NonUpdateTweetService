@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Nuts の規則" Description="Nuts のコード分析の規則です。" ToolsVersion="14.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1000" Action="Warning" />
+    <Rule Id="CA1014" Action="None" />
+    <Rule Id="CA1020" Action="None" />
+    <Rule Id="CA1054" Action="None" />
+    <Rule Id="CA1056" Action="None" />
+    <Rule Id="CA1303" Action="None" />
+    <Rule Id="CA1305" Action="None" />
+    <Rule Id="CA1707" Action="None" />
+    <Rule Id="CA1709" Action="None" />
+    <Rule Id="CA1822" Action="Warning" />
+    <Rule Id="CA2210" Action="None" />
+  </Rules>
+</RuleSet>

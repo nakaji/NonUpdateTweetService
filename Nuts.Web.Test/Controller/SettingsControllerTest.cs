@@ -12,6 +12,7 @@ namespace Nuts.Web.Test.Controller
     [TestClass]
     public class SettingsControllerTest
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:スコープを失う前にオブジェクトを破棄")]
         [TestMethod]
         public void New_モデルがエラーの場合は元の画面へ戻る()
         {
@@ -33,6 +34,7 @@ namespace Nuts.Web.Test.Controller
             Assert.AreEqual("", result.ViewName);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:スコープを失う前にオブジェクトを破棄")]
         [TestMethod]
         public void Edit_該当するデータがなければ404_NotFound()
         {

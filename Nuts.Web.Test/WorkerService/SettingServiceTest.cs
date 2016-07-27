@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Nuts.Entity;
 using Nuts.Repository;
+using Nuts.Web.ViewModels;
 using Nuts.Web.WorkerService;
 using Setting = Nuts.Entity.Setting;
 
@@ -74,7 +75,7 @@ namespace Nuts.Web.Test.WorkerService
             var sut = new SettingService(moq.Object);
 
             // Act
-            var result = sut.GetSettingsEditViewModel(100, 1);
+            sut.GetSettingsEditViewModel(100, 1);
 
             // Assert
         }
@@ -125,5 +126,51 @@ namespace Nuts.Web.Test.WorkerService
             Assert.AreEqual("http://example.com/rss1", result.RssUrl);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EditSetting_modelがnullの場合はArgumentNullException()
+        {
+            // Arrange
+            var sut = new SettingService();
+
+            // Act
+            sut.EditSetting(100, null);
+        }
+
+        [TestMethod]
+        public void EditSetting_modelのRssUrlがnullの場合はArgumentException()
+        {
+            var sut = new SettingService();
+
+            try
+            {
+                // Act
+                sut.EditSetting(100, new SettingsNewViewModel());
+            }
+            catch (ArgumentException ex)
+            {
+                // Assert
+                Assert.AreEqual("RssUrl is null or empty", ex.Message);
+            }
+
+        }
+
+        [TestMethod]
+        public void EditSetting_modelのRssUrlが空白の場合はArgumentException()
+        {
+            var sut = new SettingService();
+
+            try
+            {
+                // Act
+                sut.EditSetting(100, new SettingsNewViewModel() {RssUrl = ""});
+            }
+            catch (ArgumentException ex)
+            {
+                // Assert
+                Assert.AreEqual("RssUrl is null or empty", ex.Message);
+            }
+
+        }
     }
 }

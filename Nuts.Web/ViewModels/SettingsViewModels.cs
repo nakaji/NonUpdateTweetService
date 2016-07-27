@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -9,7 +10,12 @@ namespace Nuts.Web.ViewModels
 {
     public class SettingsIndexViewModel
     {
-        public List<Setting> Settings { get; set; }
+        public SettingsIndexViewModel(ReadOnlyCollection<Setting> settings)
+        {
+            Settings = settings;
+        }
+
+        public ReadOnlyCollection<Setting> Settings { get; private set; }
     }
 
     public class Setting

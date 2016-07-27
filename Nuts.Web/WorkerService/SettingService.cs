@@ -1,19 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Nuts.Repository;
 using Nuts.Web.ViewModels;
+using WebGrease.Css.Extensions;
 
 namespace Nuts.Web.WorkerService
 {
     public interface ISettingService
     {
         SettingsIndexViewModel GetSettingsIndexViewModel(long userId);
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         SettingsNewViewModel GetSettingsNewViewModel();
+
         void AddNewSetting(long userId, SettingsNewViewModel model);
+
         SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId);
-        void EditSetting(long userId, SettingsNewViewModel model);
+
+        void EditSetting(long userId, SettingsNewViewModel model); //ToDo:SettingsEditViewModelの間違い
     }
 
     public class SettingService: ISettingService
@@ -33,10 +37,10 @@ namespace Nuts.Web.WorkerService
         {
             var user = _repository.GetUserById(userId);
 
-            var model = new SettingsIndexViewModel()
-            {
-                Settings = user.Settings.Select(x => new Setting() { Id = x.Id, RssUrl = x.RssUrl }).ToList()
-            };
+            var settings =
+                user.Settings.Select(x => new Setting() {Id = x.Id, RssUrl = x.RssUrl}).ToSafeReadOnlyCollection();
+
+            var model = new SettingsIndexViewModel(settings);
 
             return model;
         }
@@ -48,6 +52,9 @@ namespace Nuts.Web.WorkerService
 
         public void AddNewSetting(long userId, SettingsNewViewModel model)
         {
+            if (model == null) throw new ArgumentNullException(nameof(model));
+            if (string.IsNullOrEmpty(model.RssUrl)) throw new ArgumentException(nameof(model.RssUrl) + " is null or empty");
+
             var repository = new SettingsRepository();
 
             var setting = new Entity.Setting()
@@ -78,6 +85,9 @@ namespace Nuts.Web.WorkerService
 
         public void EditSetting(long userId, SettingsNewViewModel model)
         {
+            if (model == null) throw new ArgumentNullException(nameof(model));
+            if (string.IsNullOrEmpty( model.RssUrl)) throw new ArgumentException(nameof(model.RssUrl) + " is null or empty");
+
             var repository = new SettingsRepository();
 
             var setting = new Entity.Setting()
