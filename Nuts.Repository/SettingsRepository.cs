@@ -40,7 +40,8 @@ namespace Nuts.Repository
 
         public void Delete(Setting setting)
         {
-            throw new NotImplementedException();
+            _db.Settings.Remove(setting);
+            _db.SaveChanges();
         }
     }
 }
