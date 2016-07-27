@@ -24,22 +24,10 @@ namespace Nuts.Web.WorkerService
 
     public class SettingService: ISettingService
     {
-        private readonly IUserRepository _userRepository;
         private readonly ISettingsRepository _settingsRepository;
 
-        public SettingService() : this(new UserRepository(), new SettingsRepository())
+        public SettingService() : this(new SettingsRepository())
         {
-        }
-
-        public SettingService(IUserRepository userRepository,ISettingsRepository settingsRepository)
-        {
-            _userRepository = userRepository;
-            _settingsRepository = settingsRepository;
-        }
-
-        public SettingService(IUserRepository repository)
-        {
-            _userRepository = repository;
         }
 
         public SettingService(ISettingsRepository settingsRepository)
@@ -49,10 +37,7 @@ namespace Nuts.Web.WorkerService
 
         public SettingsIndexViewModel GetSettingsIndexViewModel(long userId)
         {
-            var user = _userRepository.GetUserById(userId);
-
-            var settings =
-                user.Settings.Select(x => new Setting() {Id = x.Id, RssUrl = x.RssUrl}).ToSafeReadOnlyCollection();
+            var settings = _settingsRepository.FindByUserId(userId).Select(x => new Setting() {Id = x.Id, RssUrl = x.RssUrl}).ToSafeReadOnlyCollection();
 
             var model = new SettingsIndexViewModel(settings);
 
@@ -82,10 +67,7 @@ namespace Nuts.Web.WorkerService
 
         public SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId)
         {
-            var user = _userRepository.GetUserById(userId);
-            if (user == null) throw new InvalidOperationException();
-
-            var setting = user.Settings?.FirstOrDefault(x => x.Id == settingId);
+            var setting = _settingsRepository.FindByUserId(userId)?.FirstOrDefault(x => x.Id == settingId);
             if (setting == null) return null;
 
             var model = new SettingsEditViewModel()
