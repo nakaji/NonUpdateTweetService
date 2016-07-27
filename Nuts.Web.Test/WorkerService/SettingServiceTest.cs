@@ -18,17 +18,13 @@ namespace Nuts.Web.Test.WorkerService
         public void GetSettingsIndexViewModel_UserIdから取得する()
         {
             // Arrange
-            var moq = new Mock<IUserRepository>();
-            moq.Setup(x => x.GetUserById(100)).Returns(new User()
-            {
-                UserId = 100,
-                ScreenName = "ScreenName",
-                Settings = new List<Setting>()
+            var moq = new Mock<ISettingsRepository>();
+            moq.Setup(x => x.FindByUserId(100)).Returns(new List<Setting>()
                 {
                     new Setting() {RssUrl = "http://example.com/rss1"},
                     new Setting() {RssUrl = "http://example.com/rss2"}
-                }
-            });
+                }.AsQueryable()
+            );
             var sut = new SettingService(moq.Object);
 
             // Act
@@ -44,18 +40,7 @@ namespace Nuts.Web.Test.WorkerService
         public void GetSettingsNewViewModel_空のモデルを返す()
         {
             // Arrange
-            var moq = new Mock<IUserRepository>();
-            moq.Setup(x => x.GetUserById(100)).Returns(new User()
-            {
-                UserId = 100,
-                ScreenName = "ScreenName",
-                Settings = new List<Setting>()
-                {
-                    new Setting() {RssUrl = "http://example.com/rss1"},
-                    new Setting() {RssUrl = "http://example.com/rss2"}
-                }
-            });
-            var sut = new SettingService(moq.Object);
+            var sut = new SettingService();
 
             // Act
             var result = sut.GetSettingsNewViewModel();
@@ -67,31 +52,26 @@ namespace Nuts.Web.Test.WorkerService
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void SettingsEditViewModel_存在しないユーザIDが指定された場合はInvalidOperationException()
+        public void SettingsEditViewModel_存在しないユーザIDが指定された場合はnullを返す()
         {
             // Arrange
-            var moq = new Mock<IUserRepository>();
-            moq.Setup(x => x.GetUserById(It.IsAny<int>())).Returns(() => null);
+            var moq = new Mock<ISettingsRepository>();
+            moq.Setup(x => x.FindByUserId(It.IsAny<long>())).Returns(() => null);
             var sut = new SettingService(moq.Object);
 
             // Act
-            sut.GetSettingsEditViewModel(100, 1);
+            var result = sut.GetSettingsEditViewModel(100, 1);
 
             // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void SettingsEditViewModel_存在しない設定の場合はnullを返す()
         {
             // Arrange
-            var moq = new Mock<IUserRepository>();
-            moq.Setup(x => x.GetUserById(100)).Returns(new User()
-            {
-                UserId = 100,
-                ScreenName = "ScreenName",
-                Settings = null
-            });
+            var moq = new Mock<ISettingsRepository>();
+            moq.Setup(x => x.FindByUserId(100)).Returns(() => null);
             var sut = new SettingService(moq.Object);
 
             // Act
@@ -105,17 +85,13 @@ namespace Nuts.Web.Test.WorkerService
         public void SettingsEditViewModel_ユーザIDと設定IDにマッチするものがあった場合()
         {
             // Arrange
-            var moq = new Mock<IUserRepository>();
-            moq.Setup(x => x.GetUserById(100)).Returns(new User()
-            {
-                UserId = 100,
-                ScreenName = "ScreenName",
-                Settings = new List<Setting>()
+            var moq = new Mock<ISettingsRepository>();
+            moq.Setup(x => x.FindByUserId(100)).Returns(new List<Setting>()
                 {
                     new Setting() {Id = 1, RssUrl = "http://example.com/rss1"},
                     new Setting() {Id = 2, RssUrl = "http://example.com/rss2"}
-                }
-            });
+                }.AsQueryable()
+            );
             var sut = new SettingService(moq.Object);
 
             // Act
@@ -180,13 +156,12 @@ namespace Nuts.Web.Test.WorkerService
             var userID = 100L;
             var settingId = 1;
 
-            var moqUserRepository = new Mock<IUserRepository>();
 
             var setting = new Setting() { Id = settingId };
             var moqSettingRepository = new Mock<ISettingsRepository>();
             moqSettingRepository.Setup(x => x.FindByUserId(userID)).Returns(new List<Setting>() { setting }.AsQueryable());
 
-            var sut = new SettingService(moqUserRepository.Object, moqSettingRepository.Object);
+            var sut = new SettingService(moqSettingRepository.Object);
 
             // Act
             sut.DeleteSetting(userID, settingId);
@@ -199,12 +174,10 @@ namespace Nuts.Web.Test.WorkerService
         public void DeleteSetting_指定されたユーザIDのユーザが存在しない場合は何もしない()
         {
             // Arrange
-            var moqUserRepository = new Mock<IUserRepository>();
-
             var moqSettingRepository = new Mock<ISettingsRepository>();
-            moqSettingRepository.Setup(x => x.FindByUserId(It.IsAny<long>())).Returns(()=>null);
+            moqSettingRepository.Setup(x => x.FindByUserId(It.IsAny<long>())).Returns(() => null);
 
-            var sut = new SettingService(moqUserRepository.Object, moqSettingRepository.Object);
+            var sut = new SettingService(moqSettingRepository.Object);
 
             // Act
             sut.DeleteSetting(100, 1);
@@ -220,12 +193,10 @@ namespace Nuts.Web.Test.WorkerService
             var userID = 100L;
 
             var setting = new Setting() { Id = 1 };
-            var moqUserRepository = new Mock<IUserRepository>();
-
             var moqSettingRepository = new Mock<ISettingsRepository>();
             moqSettingRepository.Setup(x => x.FindByUserId(userID)).Returns(new List<Setting>() { setting }.AsQueryable());
 
-            var sut = new SettingService(moqUserRepository.Object, moqSettingRepository.Object);
+            var sut = new SettingService(moqSettingRepository.Object);
 
             // Act
             sut.DeleteSetting(userID, 2);
