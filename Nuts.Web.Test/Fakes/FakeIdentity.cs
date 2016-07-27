@@ -17,6 +17,7 @@ namespace Nuts.Web.Test.Fakes
             this.name = userName;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations")]
         public string AuthenticationType
         {
             get { throw new NotImplementedException(); }

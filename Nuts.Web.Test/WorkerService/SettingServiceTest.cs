@@ -75,7 +75,7 @@ namespace Nuts.Web.Test.WorkerService
             var sut = new SettingService(moq.Object);
 
             // Act
-            var result = sut.GetSettingsEditViewModel(100, 1);
+            sut.GetSettingsEditViewModel(100, 1);
 
             // Assert
         }
