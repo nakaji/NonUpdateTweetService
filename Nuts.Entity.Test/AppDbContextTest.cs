@@ -18,7 +18,7 @@ namespace Nuts.Entity.Test
             var db = new AppDbContext();
 
             // Act
-            var result = db.Users.ToListAsync().Result;
+            db.Users.ToListAsync().Wait();
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace Nuts.Entity.Test
             var db = new AppDbContext();
 
             // Assert
-            var result = db.Users.ToListAsync().Result;
+            db.Users.ToListAsync().Wait();
 
         }
 

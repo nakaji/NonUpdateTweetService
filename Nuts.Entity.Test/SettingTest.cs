@@ -9,13 +9,13 @@ namespace Nuts.Entity.Test
     public class SettingTest
     {
         [TestMethod]
-        public void UserIDをセットしてデータを追加する()
+        public void UserIdをセットしてデータを追加する()
         {
             // Arrange
             long userId = 200;
             Database.SetInitializer(new DropCreateDatabaseAlways<AppDbContext>());
             var db = new AppDbContext();
-            var user = new User() { UserId = userId, ScreenName = nameof(UserIDをセットしてデータを追加する) };
+            var user = new User() { UserId = userId, ScreenName = nameof(UserIdをセットしてデータを追加する) };
             db.Users.Add(user);
             db.SaveChanges();
 
