@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Nuts.Entity;
@@ -179,11 +180,11 @@ namespace Nuts.Web.Test.WorkerService
             var userID = 100L;
             var settingId = 1;
 
-            var setting = new Setting() { Id = settingId };
             var moqUserRepository = new Mock<IUserRepository>();
-            moqUserRepository.Setup(x => x.GetUserById(userID)).Returns(new User() { Settings = new List<Setting>() { setting } });
 
+            var setting = new Setting() { Id = settingId };
             var moqSettingRepository = new Mock<ISettingsRepository>();
+            moqSettingRepository.Setup(x => x.FindByUserId(userID)).Returns(new List<Setting>() { setting }.AsQueryable());
 
             var sut = new SettingService(moqUserRepository.Object, moqSettingRepository.Object);
 
@@ -199,9 +200,9 @@ namespace Nuts.Web.Test.WorkerService
         {
             // Arrange
             var moqUserRepository = new Mock<IUserRepository>();
-            moqUserRepository.Setup(x => x.GetUserById(It.IsAny<long>())).Returns(() => null);
 
             var moqSettingRepository = new Mock<ISettingsRepository>();
+            moqSettingRepository.Setup(x => x.FindByUserId(It.IsAny<long>())).Returns(()=>null);
 
             var sut = new SettingService(moqUserRepository.Object, moqSettingRepository.Object);
 
@@ -220,9 +221,9 @@ namespace Nuts.Web.Test.WorkerService
 
             var setting = new Setting() { Id = 1 };
             var moqUserRepository = new Mock<IUserRepository>();
-            moqUserRepository.Setup(x => x.GetUserById(userID)).Returns(new User() { Settings = new List<Setting>() { setting } });
 
             var moqSettingRepository = new Mock<ISettingsRepository>();
+            moqSettingRepository.Setup(x => x.FindByUserId(userID)).Returns(new List<Setting>() { setting }.AsQueryable());
 
             var sut = new SettingService(moqUserRepository.Object, moqSettingRepository.Object);
 

@@ -114,9 +114,7 @@ namespace Nuts.Web.WorkerService
 
         public void DeleteSetting(long userId, int settingId)
         {
-            var user = _userRepository.GetUserById(userId);
-
-            var setting = user?.Settings?.FirstOrDefault(x => x.Id == settingId);
+            var setting = _settingsRepository.FindByUserId(userId)?.FirstOrDefault(x => x.Id == settingId); ;
             if (setting == null) return;
 
             _settingsRepository.Delete(setting);
