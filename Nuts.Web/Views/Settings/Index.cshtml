@@ -6,7 +6,9 @@
 <h2>一覧</h2>
 
 <div class="container">
-    <div class="alert-info">@TempData["message"]</div>
+    @if (!string.IsNullOrEmpty(TempData["message"]?.ToString())) {
+        <div class="alert alert-info">@TempData["message"]</div>
+    }
     @Html.ActionLink("新規登録", "New", null, new {@class = "btn btn-default"})
 
     <table class="table">
