@@ -67,7 +67,7 @@ namespace Nuts.Web.Controllers
 
         // POST: Settings/Edit/{id}
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Id, RssUrl")]SettingsNewViewModel model)
+        public ActionResult Edit([Bind(Include = "Id, RssUrl")]SettingsEditViewModel model)
         {
             var userId = long.Parse(Session["UserId"].ToString());
 

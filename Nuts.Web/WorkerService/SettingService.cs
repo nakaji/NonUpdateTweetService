@@ -17,7 +17,7 @@ namespace Nuts.Web.WorkerService
 
         SettingsEditViewModel GetSettingsEditViewModel(long userId, int settingId);
 
-        void EditSetting(long userId, SettingsNewViewModel model); //ToDo:SettingsEditViewModelの間違い
+        void EditSetting(long userId, SettingsEditViewModel model);
 
         void DeleteSetting(long userId, int settingId);
     }
@@ -79,7 +79,7 @@ namespace Nuts.Web.WorkerService
             return model;
         }
 
-        public void EditSetting(long userId, SettingsNewViewModel model)
+        public void EditSetting(long userId, SettingsEditViewModel model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             if (string.IsNullOrEmpty( model.RssUrl)) throw new ArgumentException(nameof(model.RssUrl) + " is null or empty");

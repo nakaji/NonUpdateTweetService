@@ -122,7 +122,7 @@ namespace Nuts.Web.Test.WorkerService
             try
             {
                 // Act
-                sut.EditSetting(100, new SettingsNewViewModel());
+                sut.EditSetting(100, new SettingsEditViewModel());
             }
             catch (ArgumentException ex)
             {
@@ -140,7 +140,7 @@ namespace Nuts.Web.Test.WorkerService
             try
             {
                 // Act
-                sut.EditSetting(100, new SettingsNewViewModel() { RssUrl = "" });
+                sut.EditSetting(100, new SettingsEditViewModel() { RssUrl = "" });
             }
             catch (ArgumentException ex)
             {
