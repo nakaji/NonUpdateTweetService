@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Nuts.Repository
         IQueryable<Setting> FindByUserId(long userId);
         void Save(Setting setting);
         void Delete(Setting setting);
+        IQueryable<Setting> All();
     }
 
     public class SettingsRepository: ISettingsRepository
@@ -43,5 +45,11 @@ namespace Nuts.Repository
             _db.Settings.Remove(setting);
             _db.SaveChanges();
         }
+
+        public IQueryable<Setting> All()
+        {
+            return _db.Settings.Include(nameof(User));
+        }
+
     }
 }
